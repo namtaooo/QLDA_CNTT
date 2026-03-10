@@ -1,0 +1,13 @@
+fastapi==0.111.0
+uvicorn==0.29.0
+langchain==0.1.16
+langchain-community==0.0.33
+sentence-transformers==2.7.0
+faiss-cpu==1.8.0.post1
+pydantic==2.7.0
+accelerate==0.29.3
+# Use transformers if loading local models
+transformers==4.40.1
+# OpenAI if using api
+openai==1.23.2
+python-multipart==0.0.9

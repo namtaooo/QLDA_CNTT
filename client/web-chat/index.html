@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Office Chat - eOffice System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="icon">🤖</span>
+                <h2>AI Office</h2>
+            </div>
+            <div class="nav-section">
+                <h3>Chức năng</h3>
+                <ul>
+                    <li class="active">Nhắn tin & Hỏi đáp</li>
+                    <li>Phân tích dữ liệu</li>
+                    <li>Tài liệu RAG</li>
+                    <li>Phân công việc (Tasks)</li>
+                </ul>
+            </div>
+            <div class="nav-section">
+                <h3>Lịch sử chat</h3>
+                <ul id="history-list">
+                    <!-- Loaded dynamically -->
+                </ul>
+            </div>
+            <div class="user-profile">
+                <div class="avatar">U</div>
+                <div class="info">
+                    <span class="name">Nguyễn Văn A</span>
+                    <span class="role">Nhân viên</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="chat-area">
+            <header class="chat-header">
+                <div class="chat-title">
+                    Chuyên gia Hỗ trợ Nội bộ
+                    <span class="status">Sẵn sàng phản hồi</span>
+                </div>
+            </header>
+
+            <div class="messages" id="messages-container">
+                <div class="message system">
+                    <div class="bubble">
+                        <p>Xin chào! Tôi là AI Office Assistant. Tôi có thể giúp gì cho bạn hôm nay?</p>
+                        <div class="suggestions">
+                            <span class="suggestion-chip">💡 Dùng Hàm VLOOKUP trong Excel</span>
+                            <span class="suggestion-chip">💡 Tạo Slide báo cáo tuần</span>
+                            <span class="suggestion-chip">💡 Tra cứu tài liệu nội bộ</span>
+                            <span class="suggestion-chip">💡 Soạn email xin nghỉ phép</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <button class="attach-btn" title="Đính kèm file">📎</button>
+                    <textarea id="chat-input"
+                        placeholder="Hỏi bất cứ điều gì về công việc, Excel, Word, PPT... (Shift+Enter để xuống dòng)"></textarea>
+                    <button class="send-btn" id="send-btn">
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+                <div class="footer-note">AI có thể mắc lỗi, vui lòng kiểm tra lại thông tin quan trọng.</div>
+            </div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+# Không commit model AI nặng lên Git
+models/*
+!models/README.md
+!models/.gitkeep
+
+# Không commit vector index lên Git
+vector_store/*
+!vector_store/README.md
+!vector_store/.gitkeep
+
+# Python
+__pycache__/
+*.pyc

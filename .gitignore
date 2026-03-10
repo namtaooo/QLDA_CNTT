@@ -1,0 +1,29 @@
+# AI Models and Vector Stores
+ai-engine/models/
+!ai-engine/models/README.md
+!ai-engine/models/.gitkeep
+models/
+
+ai-engine/vector_store/
+!ai-engine/vector_store/README.md
+!ai-engine/vector_store/.gitkeep
+
+# Storage
+storage/documents/
+!storage/documents/.gitkeep
+storage/reports/
+!storage/reports/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+
+# Docker
+.docker/
+docker-compose.override.yml
