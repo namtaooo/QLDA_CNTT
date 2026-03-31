@@ -59,7 +59,24 @@ Hệ thống trợ lý AI nội bộ dành cho doanh nghiệp, tích hợp vào 
 > Máy chủ chạy Backend API + AI Engine + Database.
 > Chỉ cần 1 máy duy nhất, các máy nhân viên sẽ gọi API tới máy này.
 
-### Bước 1: Cài PostgreSQL
+### Chạy bằng Docker Compose (Khuyên dùng)
+
+Cách dễ nhất để chạy toàn bộ Server, Database và AI Engine là sử dụng Docker:
+
+```bash
+docker-compose up -d --build
+```
+
+Sau khi chạy lệnh trên, các dịch vụ sẽ tự động khởi động:
+- Backend API: `http://localhost:8000`
+- AI Engine: `http://localhost:8001`
+- PostgreSQL: `localhost:5432`
+
+---
+
+### Chạy thủ công (Không dùng Docker)
+
+#### Bước 1: Cài PostgreSQL
 
 Tải và cài đặt PostgreSQL: https://www.postgresql.org/download/
 

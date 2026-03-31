@@ -1,67 +1,70 @@
 version: '3.8'
 
 services:
-  postgres_db:
-    image: postgres:15-alpine
-    container_name: qlda_postgres
-    restart: always
+  db:
+    image: postgres:15
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgrespassword
-      POSTGRES_DB: ai_office_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpassword
+      POSTGRES_DB: aioffice
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - ai_network
 
-  api_server:
-    build: 
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  server:
+    build:
       context: ./server
       dockerfile: Dockerfile
-    container_name: qlda_api_server
-    restart: always
     ports:
       - "8000:8000"
     environment:
-      - POSTGRES_SERVER=postgres_db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgrespassword
-      - POSTGRES_DB=ai_office_db
-      - AI_ENGINE_URL=http://ai_engine:8001
+      DATABASE_URL: "postgresql://admin:adminpassword@db:5432/aioffice"
+      SECRET_KEY: "super-secret-production-key"
+      AI_ENGINE_URL: "http://ai-engine:8001"
+      CELERY_BROKER_URL: "redis://redis:6379/0"
+      CELERY_RESULT_BACKEND: "redis://redis:6379/0"
     depends_on:
-      - postgres_db
-    volumes:
-      - ./server:/app
-      - ./storage:/app/storage
-    networks:
-      - ai_network
-    # For dev environment: 
-    # command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-
-  ai_engine:
+      - db
+      - redis
+    
+  celery_worker:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    command: "celery -A app.worker.celery_app worker --loglevel=info"
+    environment:
+      DATABASE_URL: "postgresql://admin:adminpassword@db:5432/aioffice"
+      AI_ENGINE_URL: "http://ai-engine:8001"
+      CELERY_BROKER_URL: "redis://redis:6379/0"
+      CELERY_RESULT_BACKEND: "redis://redis:6379/0"
+    depends_on:
+      - db
+      - redis
+      - server
+    
+  ai-engine:
     build:
       context: ./ai-engine
       dockerfile: Dockerfile
-    container_name: qlda_ai_engine
-    restart: always
     ports:
       - "8001:8001"
     volumes:
-      - ./ai-engine:/app
-      - ./storage:/app/storage
-    networks:
-      - ai_network
-    # command: uvicorn llm_server:app --host 0.0.0.0 --port 8001
+      - ./ai-engine/models:/app/models
+      - ./ai-engine/vector_store:/app/vector_store
 
-  # Nginx could be added later for serving modern React/Vue web client,
-  # but right now client/web-chat is static HTML JS that can be opened directly.
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
 
 volumes:
   postgres_data:
-
-networks:
-  ai_network:
-    driver: bridge

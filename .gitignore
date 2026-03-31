@@ -23,6 +23,8 @@ __pycache__/
 env/
 venv/
 .env
+server/venv/    
+client/venv/    
 
 # Docker
 .docker/
